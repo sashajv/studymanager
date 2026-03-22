@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✿ Sasha's NBME Redemption Bootcamp</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose:       #e8728f;
+  --rose2:      #d45672;
+  --rose-soft:  #f9e0e8;
+  --rose-pale:  #fdf0f4;
+  --blush:      #f7d6e2;
+  --petal:      #fce8f0;
+  --lilac:      #c9a8e0;
+  --lilac-soft: #ede0f7;
+  --lilac-pale: #f8f3fd;
+  --mint:       #7dcfb0;
+  --mint-soft:  #d8f4ec;
+  --cream:      #fdf6f9;
+  --cream2:     #fff9fb;
+  --text:       #3a1f2d;
+  --text2:      #7d4d63;
+  --text3:      #c099ae;
+  --border:     rgba(220,140,170,0.2);
+  --border2:    rgba(220,140,170,0.38);
+  --shadow:     0 2px 16px rgba(220,100,140,0.08);
+  --shadow2:    0 8px 32px rgba(220,100,140,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Quicksand',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 10%, rgba(201,168,224,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 80%, rgba(232,114,143,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(253,240,244,0.4) 0%, transparent 70%);
+}
+.petal-wrap{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.fp{position:absolute;opacity:0;font-size:14px;animation:fallingPetal linear infinite;}
+.fp:nth-child(1){left:8%;animation-duration:14s;animation-delay:0s;font-size:12px;}
+.fp:nth-child(2){left:22%;animation-duration:17s;animation-delay:3s;font-size:10px;}
+.fp:nth-child(3){left:42%;animation-duration:13s;animation-delay:6s;font-size:15px;}
+.fp:nth-child(4){left:65%;animation-duration:16s;animation-delay:1s;font-size:11px;}
+.fp:nth-child(5){left:80%;animation-duration:12s;animation-delay:8s;font-size:13px;}
+.fp:nth-child(6){left:55%;animation-duration:18s;animation-delay:4s;font-size:9px;}
+@keyframes fallingPetal{
+  0%{opacity:0;top:-5%;transform:rotate(0deg) translateX(0);}
+  10%{opacity:0.18;}90%{opacity:0.1;}
+  100%{opacity:0;top:105%;transform:rotate(360deg) translateX(30px);}
+}
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:258px;
+  background:var(--cream2);border-right:1.5px solid var(--border);
+  z-index:100;display:flex;flex-direction:column;
+  box-shadow:4px 0 24px rgba(220,100,140,0.06);
+}
+.sidebar-top{
+  padding:28px 22px 22px;
+  background:linear-gradient(160deg,#fff7fa,#fce8f2);
+  border-bottom:1.5px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.sidebar-top::after{
+  content:'✿';position:absolute;right:-6px;top:-4px;
+  font-size:60px;opacity:0.06;color:var(--rose);
+  pointer-events:none;transform:rotate(15deg);
+}
+.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.sb-logo-icon{
+  width:36px;height:36px;border-radius:12px;
+  background:linear-gradient(135deg,#f9c5d5,#e8728f);
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;box-shadow:0 3px 10px rgba(232,114,143,0.3);
+}
+.sb-logo-text{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--text);letter-spacing:-0.2px;}
+.sb-sub{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding-left:2px;}
+.sb-progress{padding:16px 22px;border-bottom:1.5px solid var(--border);}
+.sbp-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;}
+.sbp-label{font-size:10px;color:var(--text3);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;}
+.sbp-pct{font-size:24px;font-weight:700;color:var(--rose);font-variant-numeric:tabular-nums;line-height:1;}
+.bar-track{height:7px;background:var(--rose-soft);border-radius:99px;overflow:hidden;}
+.bar-fill{
+  height:100%;
+  background:linear-gradient(90deg,#f9c0d2,#e8728f,#c9a8e0);
+  border-radius:99px;
+  transition:width 0.6s cubic-bezier(.4,0,.2,1);
+}
+.sbp-counts{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;}
+.sbp-c{font-size:11px;color:var(--text3);font-weight:600;}
+.sbp-c span{color:var(--text2);}
+.week-nav{flex:1;overflow-y:auto;padding:10px 0 16px;}
+.week-nav::-webkit-scrollbar{width:3px;}
+.week-nav::-webkit-scrollbar-thumb{background:var(--blush);border-radius:99px;}
+.wbtn{
+  display:flex;align-items:center;gap:9px;width:100%;
+  padding:10px 20px;background:none;border:none;cursor:pointer;
+  font-family:'Quicksand',sans-serif;font-size:12.5px;font-weight:600;
+  color:var(--text3);transition:all 0.16s;text-align:left;
+}
+.wbtn:hover{color:var(--text2);background:rgba(232,114,143,0.05);}
+.wbtn.active{color:var(--rose);background:linear-gradient(90deg,rgba(232,114,143,0.09),transparent);}
+.wbtn .wnum{font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.55;min-width:34px;}
+.wbtn .wlabel{flex:1;font-size:12px;color:var(--text2);}
+.wbtn.active .wlabel{color:var(--rose);}
+.wbtn .wpct{font-size:10.5px;opacity:0.6;}
+.wdot{width:8px;height:8px;border-radius:50%;background:var(--blush);flex-shrink:0;transition:all 0.2s;border:1.5px solid var(--border2);}
+.wbtn.active .wdot{background:var(--rose);border-color:var(--rose);box-shadow:0 0 8px rgba(232,114,143,0.5);}
+.main{margin-left:258px;min-height:100vh;position:relative;z-index:1;}
+.week-panel{display:none;padding:44px 52px;max-width:880px;}
+.week-panel.visible{display:block;animation:fadeUp 0.3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.week-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:30px;padding-bottom:24px;
+  border-bottom:1.5px dashed rgba(220,140,170,0.3);
+}
+.wh-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--petal);border:1px solid var(--border2);
+  border-radius:99px;padding:3px 12px;
+  font-size:10px;font-weight:700;color:var(--rose);
+  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;
+}
+.week-title{font-family:'Cormorant Garamond',serif;font-size:46px;color:var(--text);letter-spacing:-1.5px;line-height:1;font-weight:600;}
+.week-title em{color:var(--rose);font-style:italic;}
+.week-subtitle{font-size:12px;color:var(--text3);margin-top:8px;font-weight:600;letter-spacing:0.04em;}
+.wh-stat{text-align:center;}
+.whs-ring{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:74px;height:74px;border-radius:50%;
+  position:relative;background:white;box-shadow:var(--shadow);
+}
+.whs-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg);}
+.whs-inner{position:relative;z-index:1;text-align:center;}
+.whs-num{font-size:15px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;line-height:1;}
+.whs-denom{font-size:9px;color:var(--text3);font-weight:600;}
+.wh-stat-label{font-size:10px;color:var(--text3);font-weight:600;margin-top:7px;}
+.section-card{
+  background:white;border:1.5px solid var(--border);
+  border-radius:18px;margin-bottom:10px;overflow:hidden;
+  transition:all 0.2s;box-shadow:var(--shadow);
+}
+.section-card:hover{box-shadow:var(--shadow2);border-color:var(--border2);}
+.section-card.complete{border-color:rgba(125,207,176,0.45);background:linear-gradient(135deg,#fff,#f3fdf8 80%);}
+.section-head{
+  display:flex;align-items:center;gap:11px;
+  padding:14px 16px;cursor:pointer;user-select:none;transition:background 0.15s;
+}
+.section-head:hover{background:rgba(252,232,240,0.4);}
+.sec-icon{
+  width:34px;height:34px;border-radius:11px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+  background:linear-gradient(135deg,var(--petal),var(--blush));
+  box-shadow:0 2px 8px rgba(220,100,140,0.12);
+}
+.section-card.complete .sec-icon{background:linear-gradient(135deg,var(--mint-soft),#c2ede1);}
+.sec-title{font-size:13.5px;font-weight:700;color:var(--text);flex:1;letter-spacing:-0.1px;}
+.section-card.complete .sec-title{color:var(--mint);}
+.sec-days{
+  font-size:10px;color:var(--text3);font-weight:600;white-space:nowrap;
+  background:var(--rose-pale);border:1px solid var(--border);border-radius:99px;padding:2px 9px;
+}
+.sec-count{font-size:11px;color:var(--text3);font-weight:700;font-variant-numeric:tabular-nums;min-width:28px;text-align:right;}
+.sec-bar{width:42px;height:5px;background:var(--rose-soft);border-radius:99px;overflow:hidden;}
+.sec-fill{height:100%;background:linear-gradient(90deg,var(--rose),var(--lilac));border-radius:99px;transition:width 0.4s;}
+.section-card.complete .sec-fill{background:linear-gradient(90deg,var(--mint),#a8e4ce);}
+.sec-chev{font-size:10px;color:var(--text3);transition:transform 0.25s;margin-left:2px;}
+.section-card.open .sec-chev{transform:rotate(180deg);}
+.topic-list{border-top:1.5px dashed rgba(220,140,170,0.18);padding:5px 0;display:none;}
+.section-card.open .topic-list{display:block;}
+.topic-row{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 16px 8px 61px;cursor:pointer;transition:background 0.12s;
+}
+.topic-row:hover{background:rgba(252,225,238,0.35);}
+.cb{
+  width:17px;height:17px;border-radius:6px;flex-shrink:0;
+  border:1.8px solid rgba(220,140,170,0.45);
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.18s;background:white;
+}
+.cb.on{
+  background:linear-gradient(135deg,var(--rose),var(--lilac));
+  border-color:transparent;box-shadow:0 2px 9px rgba(232,114,143,0.38);
+}
+.cb svg{display:none;}
+.cb.on svg{display:block;}
+.topic-label{font-size:13px;color:var(--text2);flex:1;font-weight:500;transition:all 0.15s;}
+.topic-row.done .topic-label{color:var(--text3);text-decoration:line-through;}
+.amboss-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:99px;
+  background:var(--lilac-soft);border:1px solid rgba(201,168,224,0.38);
+  color:var(--lilac);font-size:10.5px;font-weight:700;
+  text-decoration:none;white-space:nowrap;flex-shrink:0;
+  transition:all 0.15s;letter-spacing:0.03em;
+}
+.amboss-btn:hover{background:rgba(201,168,224,0.28);border-color:rgba(201,168,224,0.6);color:#a87dcc;}
+.uworld-wrap{
+  background:linear-gradient(135deg,rgba(247,214,226,0.4),rgba(237,224,247,0.4));
+  border:1.5px solid rgba(201,168,224,0.28);
+  border-radius:18px;padding:14px 18px;margin-bottom:11px;
+  box-shadow:var(--shadow);
+}
+.uworld-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.uworld-icon{
+  width:34px;height:34px;border-radius:10px;
+  background:linear-gradient(135deg,var(--rose-soft),var(--lilac-soft));
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.uworld-title{font-size:13px;font-weight:700;color:var(--rose2);flex:1;}
+.uworld-tally{font-size:11px;color:var(--text3);font-weight:700;}
+.uworld-days{display:flex;gap:7px;flex-wrap:wrap;}
+.uw-day{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 13px;border-radius:99px;
+  border:1.5px solid rgba(201,168,224,0.35);
+  background:white;cursor:pointer;
+  font-family:'Quicksand',sans-serif;font-size:12px;font-weight:700;
+  color:var(--text2);transition:all 0.17s;
+  box-shadow:0 1px 6px rgba(220,100,140,0.07);
+}
+.uw-day:hover{border-color:rgba(232,114,143,0.5);background:var(--rose-soft);}
+.uw-day.done{
+  background:linear-gradient(135deg,var(--rose-soft),var(--lilac-soft));
+  border-color:rgba(201,168,224,0.5);color:var(--rose2);
+}
+.uw-day.skipped{
+  background:transparent;border-color:var(--border);
+  color:var(--text3);cursor:default;opacity:0.55;
+  text-decoration:line-through;
+}
+.uw-cb{
+  width:14px;height:14px;border-radius:4px;
+  border:1.5px solid rgba(201,168,224,0.5);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;background:white;
+}
+.uw-day.done .uw-cb{
+  background:linear-gradient(135deg,var(--rose),var(--lilac));
+  border-color:transparent;
+}
+.uw-day.skipped .uw-cb{display:none;}
+.uw-skip-label{font-size:9.5px;color:var(--text3);font-weight:600;margin-left:2px;}
+.nbme-card{
+  border-radius:18px;padding:16px 18px;margin-bottom:10px;
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;transition:all 0.2s;
+  background:linear-gradient(135deg,var(--lilac-pale),#f3ebfc);
+  border:1.5px solid rgba(201,168,224,0.3);
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.nbme-card::before{
+  content:'✦ ✦ ✦';position:absolute;right:80px;top:50%;transform:translateY(-50%);
+  font-size:8px;color:var(--lilac);opacity:0.25;letter-spacing:4px;pointer-events:none;
+}
+.nbme-card:hover{box-shadow:var(--shadow2);border-color:rgba(201,168,224,0.55);}
+.nbme-card.complete{background:linear-gradient(135deg,var(--mint-soft),#eafbf4);border-color:rgba(125,207,176,0.38);}
+.nbme-card.complete::before{color:var(--mint);}
+.nbme-icon{
+  width:40px;height:40px;border-radius:13px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  background:rgba(201,168,224,0.2);transition:all 0.2s;
+}
+.nbme-card.complete .nbme-icon{background:var(--mint-soft);}
+.nbme-info{flex:1;}
+.nbme-title{font-size:13.5px;font-weight:700;color:var(--lilac);}
+.nbme-card.complete .nbme-title{color:var(--mint);}
+.nbme-sub{font-size:11px;color:var(--text3);margin-top:2px;font-weight:600;}
+.nbme-check{display:flex;align-items:center;gap:7px;}
+.nbme-cb-box{
+  width:21px;height:21px;border-radius:7px;
+  border:1.8px solid rgba(201,168,224,0.45);
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.18s;background:white;
+}
+.nbme-card.complete .nbme-cb-box{
+  background:linear-gradient(135deg,var(--mint),#a8e4ce);
+  border-color:transparent;box-shadow:0 2px 9px rgba(125,207,176,0.4);
+}
+.nbme-cb-label{font-size:10.5px;color:var(--text3);font-weight:700;}
+@media(max-width:768px){
+  .sidebar{width:215px;}.main{margin-left:215px;}
+  .week-panel{padding:24px 22px;}.week-title{font-size:34px;}
+}
+@media(max-width:560px){
+  .sidebar{transform:translateX(-100%);transition:transform 0.3s;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}#mob-btn{display:flex!important;}
+}
+.mob-btn{
+  position:fixed;bottom:22px;right:22px;z-index:200;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose),var(--lilac));
+  border:none;cursor:pointer;font-size:20px;
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(232,114,143,0.45);
+}
+</style>
+</head>
+<body>
+
+<div class="petal-wrap">
+  <div class="fp">🌸</div><div class="fp">✿</div><div class="fp">🌷</div>
+  <div class="fp">🌸</div><div class="fp">✿</div><div class="fp">🌷</div>
+</div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <div class="sb-logo">
+      <div class="sb-logo-icon">🌸</div>
+      <div class="sb-logo-text">Sasha's</div>
+    </div>
+    <div class="sb-sub">NBME Redemption Bootcamp 🌸</div>
+  </div>
+  <div class="sb-progress">
+    <div class="sbp-head"><span class="sbp-label">Progress</span><span class="sbp-pct" id="gp-pct">0%</span></div>
+    <div class="bar-track"><div class="bar-fill" id="gp-bar" style="width:0%"></div></div>
+    <div class="sbp-counts">
+      <div class="sbp-c"><span id="g-done">0</span> done</div>
+      <div class="sbp-c"><span id="g-left">0</span> left</div>
+      <div class="sbp-c"><span id="g-total">0</span> total</div>
+    </div>
+  </div>
+  <nav class="week-nav" id="week-nav"></nav>
+</aside>
+
+<main class="main" id="main-area"></main>
+<button class="mob-btn" id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<script>
+const SCHEDULE=[
+  {week:1,label:"Cardio, Pulm & Neuro",uworldSkip:[],sections:[
+    {id:"cardio",icon:"❤️",title:"Cardiovascular",days:"Day 1–3 · Mon–Wed",
+     topics:["Atrial fibrillation","Atrial premature beats","Valvular disease","Cardiogenic shock","Constrictive pericarditis","Physiologic murmur","Ventricular septal defect","Persistent pulmonary hypertension","CAD","CABG (CAB)","Endocarditis","Syncope","Aortic dissection","Myocardial infarction"]},
+    {id:"pulm",icon:"🫁",title:"Pulmonary",days:"Day 4 · Thu",
+     topics:["ARDS","Bronchiolitis","Respiratory acidosis","Pulmonary contusion","Diaphragmatic paralysis","Foreign body aspiration","Asthma","TB","Pulmonary embolism"]},
+    {id:"neuro",icon:"🧠",title:"Neurology",days:"Day 5–6 · Fri–Mon",
+     topics:["Subdural hematoma","Central cord syndrome","Brain herniation","Cerebral palsy","Cranial nerve palsy","Cervical artery dissection","Transverse myelitis","Brain abscess","Narcolepsy","Vertigo","Tardive dyskinesia","Neuroleptic malignant syndrome","Akathisia","Spasticity","Seizures","Migraine","TBI","Parkinson disease","Multiple sclerosis"]}
+  ],nbme:null},
+  {week:2,label:"Ophthalmology & ENT",uworldSkip:["Tuesday","Wednesday"],sections:[
+    {id:"ophth",icon:"👁️",title:"Ophthalmology / ENT",days:"Day 7–8 · Thu–Fri",
+     topics:["Presbyopia","Refractive errors","Cataract","Retinal detachment","Central retinal vein occlusion","Toxic optic neuropathy","Blepharitis","Vision screening","Otosclerosis","Hearing loss","Recurrent respiratory papillomatosis","Retropharyngeal abscess","Dacryostenosis & dacryocystitis"]}
+  ],nbme:{sub:"Tuesday · Take up Wednesday"}},
+  {week:3,label:"Derm, ID & GI",uworldSkip:["Wednesday","Thursday"],sections:[
+    {id:"derm",icon:"🧴",title:"Dermatology",days:"Day 9–10 · Sat–Mon",
+     topics:["Epidermoid cyst","Pityriasis rosea","Miliaria","Dermatofibroma","Bullous pemphigoid","Actinic keratoses","Epidermolysis bullosa","Lichen planus","Hidradenitis suppurativa","Dermatoses of pregnancy","Tinea"]},
+    {id:"id",icon:"🦠",title:"Infectious Disease",days:"Day 11–12 · Tue",
+     topics:["Chikungunya fever","Cryptosporidiosis","Sporotrichosis","Pseudomonas","Rabies","HSV infection","Group B streptococcal infection","Clostridium septicum infection","Septic emboli","Neonatal sepsis","Postpartum endometritis","Surgical wound infection","Syphilis","UTI"]},
+    {id:"gi",icon:"🔬",title:"Gastroenterology",days:"Day 13–14 · Fri–Sun",
+     topics:["Toxic megacolon","Ogilvie syndrome","Esophageal cancer","Esophageal varices","Hiatal hernia","Cholangitis","Perforated viscus","Hemobilia","Small intestinal bacterial overgrowth","Constipation","Pancreatic cancer"]}
+  ],nbme:{sub:"Wednesday · Take up Thursday"}},
+  {week:4,label:"Heme, Onc & Endo",uworldSkip:["Friday"],sections:[
+    {id:"heme",icon:"🩸",title:"Hematology / Oncology",days:"Day 15–16 · Mon–Tue",
+     topics:["ITP","Thrombocytopenia","Waldenström macroglobulinemia","Leukemoid reaction","Hemophilias","Platelet dysfunction","Splenic abscess","Metastatic liver disease","CNS lymphoma","Testicular cancer","Vaginal cancer","Cervical cancer","Endometrial cancer","Sickle cell disease"]},
+    {id:"endo",icon:"🧪",title:"Endocrine / Metabolic",days:"Day 18–19 · Wed–Thu",
+     topics:["Hypothyroidism","Hyperthyroidism","Thyroid disorder in pregnancy","Glucagonoma","VIPoma","Hypoglycemia","Rickets","Phenylketonuria","Obesity","Adrenal insufficiency"]}
+  ],nbme:{sub:"Friday · Take up Sat–Sun"}},
+  {week:5,label:"Renal, OB & Gyn",uworldSkip:[],sections:[
+    {id:"renal",icon:"🧫",title:"Renal / GU",days:"Day 20–21 · Mon–Tue",
+     topics:["IgA nephropathy","Anti-GBM disease","Renal vein thrombosis","Interstitial nephritis","Prerenal azotemia","Glomerular disorders","Kidney transplantation","Renal cysts","Varicocele","Bladder cancer","Epididymitis","Renal calculi","Urinary incontinence","Enuresis"]},
+    {id:"ob",icon:"🤰",title:"Obstetrics",days:"Day 22–23 · Wed–Thu",
+     topics:["HELLP syndrome","Placental accreta","Preterm labor","Labor management","Rhesus alloimmunization","ABO incompatibility","Antepartum fetal testing","Prenatal care","Pre-eclampsia"]},
+    {id:"gyn",icon:"👩‍⚕️",title:"Gynecology / Women's Health",days:"Day 24 · Fri",
+     topics:["Ovarian torsion","Ovarian cyst","Pelvic organ prolapse","Vaginal atrophy","Fibrocystic breast changes","Breastfeeding","Labial adhesion","Cervical cancer","Breast cancer"]}
+  ],nbme:null},
+  {week:6,label:"Peds, MSK & Surgery",uworldSkip:["Monday","Tuesday"],sections:[
+    {id:"peds",icon:"👶",title:"Pediatrics",days:"Day 25 · Wed",
+     topics:["Bronchiolitis","Developmental hip dysplasia","Microcephaly","Neonatal cephalic pustulosis","Umbilical hernia","Genu varum","Torticollis","Ataxia telangiectasia","X-linked agammaglobulinemia","Biliary atresia"]},
+    {id:"msk",icon:"🦴",title:"MSK / Ortho",days:"Day 26 · Thu",
+     topics:["Patellar dislocation","Quadriceps tendon injury","Achilles tendinopathy","Adhesive capsulitis","Shoulder dislocation","Ankle trauma","Compartment syndrome","Dupuytren's contracture","Tarsal tunnel syndrome","Morton neuroma","Meralgia paresthetica","Ganglion cyst","Bone cyst","Bone tumor","Osteoarthritis","Back pain"]},
+    {id:"trauma",icon:"🚑",title:"Trauma / Surgery",days:"Day 27 · Fri",
+     topics:["Penetrating abdominal trauma","Retroperitoneal hematoma","Traumatic brain injury","Orbital fracture","Anorectal abscess","Groin hernias","Fecal incontinence","Thermal burns","Hemorrhage"]}
+  ],nbme:{sub:"Monday · Take up Tuesday"}},
+  {week:7,label:"Psych, Pharm & Skills",uworldSkip:["Wednesday","Thursday"],sections:[
+    {id:"psych",icon:"🧠",title:"Psychiatry",days:"Day 28 · Mon",
+     topics:["Fibromyalgia","Body dysmorphic disorder","Prescription drug misuse","Defense mechanisms","Nightmare disorder","Pseudocyesis","Bipolar disorder","Schizophrenia","Personality disorders"]},
+    {id:"bio",icon:"📊",title:"Biostatistics / Ethics",days:"Day 29 · Tue",
+     topics:["Hypothesis testing","P-value and confidence interval","Odds ratio","Bias","Confounding / effect modification","Study designs","Beneficence","Randy Neil Lecture"]},
+    {id:"pharm",icon:"💊",title:"Pharmacology / Toxicology",days:"Day 30 · Fri",
+     topics:["Beta blockers","Corticosteroids","Calcineurin inhibitors","SSRIs","Serotonin toxicity","Organophosphate poisoning","Cyanide poisoning","Nicotine poisoning","Radioactive iodine","Antibiotics"]},
+    {id:"misc",icon:"📋",title:"Clinical Skills / Misc",days:"Day 31",
+     topics:["Motivational interviewing","Enteral nutrition","Driving","Adverse event","Blood transfusion","Immunization schedules","Medicare/Medicaid","Quality improvement","Vaccinations"]}
+  ],nbme:{sub:"Wednesday · Take up Thursday"}}
+];
+
+const KEY="boardprep_cute_v3";
+let state={},openMap={},currentWeek=1;
+function load(){try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function tk(sid,t){return sid+'||'+t;}
+function nk(w){return 'nbme||'+w;}
+function amboss(t){return 'https://next.amboss.com/us/search?q='+encodeURIComponent(t)+'&v=overview';}
+
+function globalStats(){
+  let done=0,total=0;
+  SCHEDULE.forEach(w=>{
+    w.sections.forEach(s=>s.topics.forEach(t=>{total++;if(state[tk(s.id,t)])done++;}));
+    if(w.nbme){total++;if(state[nk(w.week)])done++;}
+  });
+  return{done,total};
+}
+function weekStats(w){
+  let done=0,total=0;
+  w.sections.forEach(s=>s.topics.forEach(t=>{total++;if(state[tk(s.id,t)])done++;}));
+  if(w.nbme){total++;if(state[nk(w.week)])done++;}
+  return{done,total};
+}
+function secStats(s){return{done:s.topics.filter(t=>state[tk(s.id,t)]).length,total:s.topics.length};}
+
+function updateGlobal(){
+  const{done,total}=globalStats();
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('gp-pct').textContent=pct+'%';
+  document.getElementById('gp-bar').style.width=pct+'%';
+  document.getElementById('g-done').textContent=done;
+  document.getElementById('g-left').textContent=total-done;
+  document.getElementById('g-total').textContent=total;
+}
+
+function renderNav(){
+  const nav=document.getElementById('week-nav');
+  nav.innerHTML='';
+  SCHEDULE.forEach(w=>{
+    const{done,total}=weekStats(w);
+    const pct=total?Math.round(done/total*100):0;
+    const b=document.createElement('button');
+    b.className='wbtn'+(w.week===currentWeek?' active':'');
+    b.innerHTML=`<div class="wdot"></div><span class="wnum">Wk ${w.week}</span><span class="wlabel">${w.label}</span><span class="wpct">${pct}%</span>`;
+    b.onclick=()=>{currentWeek=w.week;renderAll();};
+    nav.appendChild(b);
+  });
+}
+
+function ringHTML(done,total){
+  const r=28,circ=2*Math.PI*r,pct=total?done/total:0,dash=(pct*circ).toFixed(1),gap=((1-pct)*circ).toFixed(1);
+  return `<div class="whs-ring">
+    <svg width="74" height="74" viewBox="0 0 74 74">
+      <circle cx="37" cy="37" r="${r}" fill="none" stroke="#fce8f0" stroke-width="5.5"/>
+      <circle cx="37" cy="37" r="${r}" fill="none" stroke="url(#rg${done})" stroke-width="5.5"
+        stroke-dasharray="${dash} ${gap}" stroke-linecap="round"/>
+      <defs><linearGradient id="rg${done}" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#f9c0d2"/><stop offset="100%" stop-color="#c9a8e0"/>
+      </linearGradient></defs>
+    </svg>
+    <div class="whs-inner"><div class="whs-num">${done}<span style="font-size:9px;color:var(--text3);font-weight:600">/${total}</span></div></div>
+  </div>`;
+}
+
+const AFFS=["you've got this 🌸","keep going, star ✨","halfway there! 💪","brilliant work! 🌷","you're amazing 🦋","almost done! 🎀","final stretch! 🌟"];
+
+const WEEKDAYS=["Monday","Tuesday","Wednesday","Thursday","Friday"];
+const DAY_SHORT={Monday:"Mon",Tuesday:"Tue",Wednesday:"Wed",Thursday:"Thu",Friday:"Fri"};
+
+function renderUWorld(w){
+  const skip=w.uworldSkip||[];
+  let doneDays=0, activeDays=0;
+  const dayBtns=WEEKDAYS.map(day=>{
+    const isSkipped=skip.includes(day);
+    if(!isSkipped) activeDays++;
+    const k='uworld||w'+w.week+'||'+day;
+    const isDone=!isSkipped&&!!state[k];
+    if(isDone) doneDays++;
+    if(isSkipped){
+      return `<div class="uw-day skipped"><span>${DAY_SHORT[day]}</span><span class="uw-skip-label">NBME</span></div>`;
+    }
+    return `<div class="uw-day ${isDone?'done':''}" data-uwday="${day}" data-uwweek="${w.week}">
+      <div class="uw-cb">${isDone?`<svg width="8" height="7" viewBox="0 0 9 8" fill="none"><path d="M1 4L3.5 6.5L8 1" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>`:''}</div>
+      <span>${DAY_SHORT[day]}</span>
+    </div>`;
+  }).join('');
+  return `<div class="uworld-wrap">
+    <div class="uworld-header">
+      <div class="uworld-icon">📚</div>
+      <div class="uworld-title">40 UWorld Questions · Daily</div>
+      <span class="uworld-tally">${doneDays}/${activeDays} days</span>
+    </div>
+    <div class="uworld-days">${dayBtns}</div>
+  </div>`;
+}
+
+function renderNBME(w){
+  const done=!!state[nk(w.week)];
+  return `<div class="nbme-card ${done?'complete':''}">
+    <div class="nbme-icon">${done?'🌸':'📝'}</div>
+    <div class="nbme-info">
+      <div class="nbme-title">✦ NBME Exam</div>
+      <div class="nbme-sub">${w.nbme.sub}</div>
+    </div>
+    <div class="nbme-check">
+      <div class="nbme-cb-box">${done?`<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>`:''}</div>
+      <span class="nbme-cb-label">${done?'done ✓':'mark done'}</span>
+    </div>
+  </div>`;
+}
+
+function renderSection(s){
+  const{done,total}=secStats(s);
+  const pct=total?Math.round(done/total*100):0;
+  const isOpen=openMap[s.id]!==false;
+  const complete=done===total;
+  const rows=s.topics.map(t=>{
+    const isDone=!!state[tk(s.id,t)];
+    return `<div class="topic-row ${isDone?'done':''}" data-sid="${s.id}" data-topic="${t.replace(/"/g,'&quot;')}">
+      <div class="cb ${isDone?'on':''}"><svg width="9" height="8" viewBox="0 0 9 8" fill="none"><path d="M1 4L3.5 6.5L8 1" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="topic-label">${t}</span>
+      <a class="amboss-btn" href="${amboss(t)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+        <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1 9L9 1M9 1H4M9 1V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AMBOSS
+      </a>
+    </div>`;
+  }).join('');
+  return `<div class="section-card ${complete?'complete':''} ${isOpen?'open':''}">
+    <div class="section-head" data-sid="${s.id}">
+      <div class="sec-icon">${s.icon}</div>
+      <span class="sec-title">${s.title}</span>
+      <span class="sec-days">${s.days}</span>
+      <span class="sec-count">${done}/${total}</span>
+      <div class="sec-bar"><div class="sec-fill" style="width:${pct}%"></div></div>
+      <span class="sec-chev">▾</span>
+    </div>
+    <div class="topic-list">${rows}</div>
+  </div>`;
+}
+
+function renderMain(){
+  const main=document.getElementById('main-area');
+  main.innerHTML='';
+  SCHEDULE.forEach(w=>{
+    const panel=document.createElement('div');
+    panel.className='week-panel'+(w.week===currentWeek?' visible':'');
+    panel.id='week-'+w.week;
+    const{done,total}=weekStats(w);
+    let html=`<div class="week-header">
+      <div class="wh-left">
+        <div class="wh-badge">✿ Week ${w.week} of 7 &nbsp;·&nbsp; ${AFFS[w.week-1]||''}</div>
+        <div class="week-title">Week <em>${w.week}</em></div>
+        <div class="week-subtitle">${w.label}</div>
+      </div>
+      <div class="wh-stat">${ringHTML(done,total)}<div class="wh-stat-label">topics complete</div></div>
+    </div>`;
+    html+=renderUWorld(w);
+    if(w.nbme&&w.week!==1&&w.week!==5) html+=renderNBME(w);
+    w.sections.forEach(s=>{html+=renderSection(s);});
+    if(w.nbme&&(w.week===1||w.week===5)) html+=renderNBME(w);
+    panel.innerHTML=html;
+    main.appendChild(panel);
+    panel.querySelectorAll('.topic-row').forEach(row=>{
+      row.addEventListener('click',()=>{
+        const k=tk(row.dataset.sid,row.dataset.topic);
+        state[k]=!state[k];save();renderAll();
+      });
+    });
+    const nbmeEl=panel.querySelector('.nbme-card');
+    if(nbmeEl) nbmeEl.addEventListener('click',()=>{const k=nk(w.week);state[k]=!state[k];save();renderAll();});
+    panel.querySelectorAll('.uw-day[data-uwday]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const day=btn.dataset.uwday;
+        const wk=btn.dataset.uwweek;
+        const k='uworld||w'+wk+'||'+day;
+        state[k]=!state[k];save();renderAll();
+      });
+    });
+    panel.querySelectorAll('.section-head').forEach(head=>{
+      head.addEventListener('click',()=>{
+        const sid=head.dataset.sid;
+        openMap[sid]=openMap[sid]===false?true:false;
+        head.closest('.section-card').classList.toggle('open',openMap[sid]!==false);
+      });
+    });
+  });
+}
+
+function renderAll(){renderNav();renderMain();updateGlobal();}
+if(window.innerWidth<=560) document.getElementById('mob-btn').style.display='flex';
+load();
+SCHEDULE.forEach(w=>w.sections.forEach(s=>{if(openMap[s.id]===undefined)openMap[s.id]=true;}));
+renderAll();
+</script>
+</body>
+</html>
